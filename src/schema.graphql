@@ -1,0 +1,30 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.5", import: ["@key", "@tag", "@requiresScopes"])
+
+type Query {
+  "The full list of locations presented by the Interplanetary Space Tourism department"
+  locations: [Location!]! @requiresScopes(scopes: [["read:location"]])
+  "The details of a specific location"
+  location(id: ID!): Location @requiresScopes(scopes: [["read:location"]])
+}
+
+type Location @key(fields: "id") {
+  id: ID!
+  "The name of the location"
+  name: String!
+  "A short description about the location"
+  description: String!
+  "The location's main photo as a URL"
+  photo: String!
+}
+
+
+type Mutation {
+  "This is for demo purposes of creating a JWT. In reality, the JWT would likely come from an IDP or some other process."
+  login(username: String!): LoginResponse
+}
+
+type LoginResponse {
+  token: String
+}
+
